@@ -9,7 +9,7 @@ public class Bishop extends Piece
 		this.yCoord = y;
 		this.type = 'B';
 	}
-	public boolean isValidMove(String move){
+	public boolean isValidMove(int x, int y){
 		return true;
 	}
 }

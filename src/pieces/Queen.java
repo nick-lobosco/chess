@@ -9,7 +9,7 @@ public class Queen extends Piece
 		this.yCoord = y;
 		this.type = 'Q';
 	}
-	public boolean isValidMove(String move){
+	public boolean isValidMove(int x, int y){
 		return true;
 	}
 }

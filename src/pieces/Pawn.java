@@ -9,7 +9,7 @@ public class Pawn extends Piece
 		this.yCoord = y;
 		this.type = 'p';
 	}
-	public boolean isValidMove(String move){
+	public boolean isValidMove(int x, int y){
 		return true;
 	}
 }

@@ -9,7 +9,7 @@ public class King extends Piece
 		this.yCoord = y;
 		this.type = 'K';
 	}
-	public boolean isValidMove(String move){
+	public boolean isValidMove(int x, int y){
 		return true;
 	}
 }
