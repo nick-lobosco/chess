@@ -10,7 +10,7 @@ import pieces.Rook;
 
 public class Board
 {
-	Piece[][] board;
+	public Piece[][] board;
 	public Board(){
 		board = new Piece[8][8];
 		for(int i=0;i<8;i++){
@@ -52,6 +52,7 @@ public class Board
 		for(int i=0; i <8;i++)
 			System.out.print(" " + (char)('a'+i) + " ");
 		System.out.println();
+		System.out.println();
 	}
 	
 	public boolean makeTurn(String move, int turn){
@@ -68,10 +69,10 @@ public class Board
 		if(board[x1][y1].player != plyr)//can't move opponents piece
 			return false;
 		if(board[x2][y2] != null){
-			if(board[x2][y2].player == plyr)//can't move piece into teammate
+			if(board[x2][y2].player == plyr)//can't move piece into teammate's square
 				return false;
 		}
-		if(!board[x1][y1].isValidMove(x2,y2))//individual piece's valid move
+		if(!board[x1][y1].isValidMove(x2,y2, this))//individual piece's valid move
 			return false;
 		board[x2][y2] = board[x1][y1]; //actually move piece
 		board[x1][y1] = null;

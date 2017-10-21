@@ -20,7 +20,6 @@ public class Chess
 		int turn = 0; //0=white, 1=black, -1 = gameover
 		boolean valid;
 		board.print();
-		
 		BufferedReader br;
 		try{
 			br = new BufferedReader(new InputStreamReader(System.in));
@@ -44,6 +43,7 @@ public class Chess
 			System.out.println(e);
 		}
 		board.print();
+		
 	}
 
 }

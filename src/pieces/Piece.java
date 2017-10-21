@@ -1,5 +1,7 @@
 package pieces;
 
+import chess.Board;
+
 public abstract class Piece
 {
 	public char player;
@@ -10,5 +12,5 @@ public abstract class Piece
 		return Character.toString(player) + Character.toString(type);
 	}
 	
-	public abstract boolean isValidMove(int x, int y);
+	public abstract boolean isValidMove(int x, int y, Board board);
 }

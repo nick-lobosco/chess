@@ -1,5 +1,6 @@
 package pieces;
 
+import chess.Board;
 
 public class Pawn extends Piece
 {
@@ -9,7 +10,7 @@ public class Pawn extends Piece
 		this.yCoord = y;
 		this.type = 'p';
 	}
-	public boolean isValidMove(int x, int y){
+	public boolean isValidMove(int x, int y, Board board){
 		return true;
 	}
 }
