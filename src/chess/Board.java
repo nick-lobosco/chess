@@ -56,26 +56,41 @@ public class Board
 	}
 	
 	public boolean makeTurn(String move, int turn){
-		int y1 = move.charAt(0)-'a';
-		int x1 = move.charAt(1) -'0' -1;
-		int y2 = move.charAt(3) - 'a';
-		int x2 = move.charAt(4) -'0' -1;
+		int c1 = move.charAt(0)-'a';
+		int r1 = move.charAt(1) -'0' -1;
+		int c2 = move.charAt(3) - 'a';
+		int r2 = move.charAt(4) -'0' -1;
 		char plyr = (turn == 0 ? 'w' : 'b');
 		
-		if(!(x1>=0 && x1<=7 && y1>=0 && y1<=7 && x2>=0 && x2<=7 && y2>=0 && y2<=7)) //pieces not on board
+		if(!(r1>=0 && r1<=7 && c1>=0 && c1<=7 && r2>=0 && r2<=7 && c2>=0 && c2<=7)) //pieces not on board
 			return false;
-		if(board[x1][y1] == null) //piece doesnt exist
+		if(board[r1][c1] == null) //piece doesnt erist
 			return false;
-		if(board[x1][y1].player != plyr)//can't move opponents piece
+		if(board[r1][c1].player != plyr)//can't move opponents piece
 			return false;
-		if(board[x2][y2] != null){
-			if(board[x2][y2].player == plyr)//can't move piece into teammate's square
+		if(board[r2][c2] != null){
+			if(board[r2][c2].player == plyr)//can't move piece into teammate's square
 				return false;
 		}
-		if(!board[x1][y1].isValidMove(x2,y2, this))//individual piece's valid move
+		if(!board[r1][c1].isValidMove(r2,c2, this))//individual piece's valid move
 			return false;
-		board[x2][y2] = board[x1][y1]; //actually move piece
-		board[x1][y1] = null;
+
+		if(board[r1][c1].type == 'R' || board[r1][c1].type == 'K')
+			board[r1][c1].hasMoved = true;
+
+		if(board[r1][c1].type == 'K'){
+			if(c2 - c1 == -2){ //castle left
+				board[r1][3] = board[r1][0];
+				board[r1][0] = null;
+			}
+			else if(c2 - c1 == 2){
+				board[r1][5] = board[r1][7];
+				board[r1][7] = null;
+			}
+		}
+		
+		board[r2][c2] = board[r1][c1]; //actually move piece
+		board[r1][c1] = null;
 		return true;
 	}
 }

@@ -4,13 +4,13 @@ import chess.Board;
 
 public class Queen extends Piece
 {
-	public Queen(char player, int x, int y){
+	public Queen(char player, int r, int c){
 		this.player = player;
-		this.xCoord = x;
-		this.yCoord = y;
+		this.rCoord = r;
+		this.cCoord = c;
 		this.type = 'Q';
 	}
-	public boolean isValidMove(int x, int y, Board board){
+	public boolean isValidMove(int rDest, int cDest, Board board){
 		return true;
 	}
 }

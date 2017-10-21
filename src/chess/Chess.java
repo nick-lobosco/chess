@@ -4,13 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import pieces.Bishop;
-import pieces.King;
-import pieces.Knight;
-import pieces.Pawn;
-import pieces.Piece;
-import pieces.Queen;
-import pieces.Rook;
 
 public class Chess
 {
@@ -29,7 +22,7 @@ public class Chess
 				s = br.readLine();
 				if(s.equals("resign")){
 					System.out.println(turn==0 ? "Black wins" : "White wins");
-					turn = -1;
+					System.exit(0);	
 				}
 				if(!(valid = board.makeTurn(s, turn)))
 					System.out.println("Illegal Move, Try again");
