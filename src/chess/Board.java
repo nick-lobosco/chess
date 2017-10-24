@@ -10,6 +10,11 @@ import pieces.Rook;
 
 public class Board
 {
+	public int wkr;
+	public int wkc;
+	public int bkr;
+	public int bkc;
+
 	public Piece[][] board;
 	public Board(){
 		board = new Piece[8][8];
@@ -36,6 +41,11 @@ public class Board
 		board[0][4] = new King('w',0,4);
 		board[7][3] = new Queen('b',7,3);
 		board[7][4] = new King('b',7,4);
+		
+		wkr = 0;
+		wkc = 4;
+		bkr = 7;
+		bkc = 4;
 	}
 	
 	public void print(){
@@ -62,21 +72,36 @@ public class Board
 		int r2 = move.charAt(4) -'0' -1;
 		char plyr = (turn == 0 ? 'w' : 'b');
 		
+		if(r1==r2 && c1==c2)//not moving at all
+		{
+			System.out.println("1");
+			return false;
+		}
 		if(!(r1>=0 && r1<=7 && c1>=0 && c1<=7 && r2>=0 && r2<=7 && c2>=0 && c2<=7)) //pieces not on board
+		{
+			System.out.println("2");
 			return false;
-		if(board[r1][c1] == null) //piece doesnt erist
+		}
+		if(board[r1][c1] == null) //piece doesnt exist
+		{
+			System.out.println("3");
 			return false;
+		}
 		if(board[r1][c1].player != plyr)//can't move opponents piece
+		{
+			System.out.println("4");
 			return false;
+		}
 		if(board[r2][c2] != null){
+			System.out.println("5");
 			if(board[r2][c2].player == plyr)//can't move piece into teammate's square
 				return false;
 		}
 		if(!board[r1][c1].isValidMove(r2,c2, this))//individual piece's valid move
+		{
+			System.out.println("6");
 			return false;
-
-		if(board[r1][c1].type == 'R' || board[r1][c1].type == 'K')
-			board[r1][c1].hasMoved = true;
+		}
 
 		if(board[r1][c1].type == 'K'){
 			if(c2 - c1 == -2){ //castle left
@@ -90,6 +115,7 @@ public class Board
 		}
 		
 		board[r2][c2] = board[r1][c1]; //actually move piece
+		board[r2][c2].move(r2, c2);
 		board[r1][c1] = null;
 		return true;
 	}

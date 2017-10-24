@@ -5,9 +5,7 @@ import chess.Board;
 public class Bishop extends Piece
 {
 	public Bishop(char player, int r, int c){
-		this.player = player;
-		this.rCoord = r;
-		this.cCoord = c;
+		super(player, r, c);
 		this.type = 'B';
 	}
 	public boolean isValidMove(int rDest, int cDest, Board board){
