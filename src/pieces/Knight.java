@@ -9,6 +9,16 @@ public class Knight extends Piece
 		this.type = 'N';
 	}
 	public boolean isValidMove(int rDest, int cDest, Board board){
-		return true;
+		if(Math.abs(rDest-rCoord) == 2 && Math.abs(cDest - cCoord) == 1)
+		{
+			return true;
+		}
+		
+		else if(Math.abs(rDest-rCoord) == 1 && Math.abs(cDest - cCoord) == 2)
+		{
+			return true;
+		}
+		
+		return false;
 	}
 }
