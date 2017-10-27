@@ -29,12 +29,13 @@ public class Pawn extends Piece
 			return true;
 		}
 		
-		if(cDest - cCoord != 0 || board.board[rDest][cDest] != null)	//cant move horizontal
+		if(cDest - cCoord != 0 || board.board[rDest][cDest] != null)	//cant move horizontally or if somethings in the way	
 		{
+			System.out.println("horiz");
 			return false;
 		}
 		
-		if(!this.hasMoved && rDest - rCoord == 2*dir && board.board[rDest+dir][cDest] == null)	//if first step, can move 2 spaces
+		if(!this.hasMoved && (rDest - rCoord == 2*dir) && board.board[rCoord+dir][cDest] == null)	//if first step, can move 2 spaces
 		{
 			int right = cDest + 1;										//enable enpassant
 			int left = cDest - 1;
