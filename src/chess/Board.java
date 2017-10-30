@@ -73,9 +73,22 @@ public class Board
 			else
 				System.out.println("check");
 		}
+		if(isStaleMate(oppPlyr)){
+			System.out.println("Stalemate");
+			return -1;
+		}
 		return 1;
 	}
 	
+	public boolean isStaleMate(char plyr){
+		for(int i=0; i<8;i++){
+			for(int j=0; j<8; j++){
+				if(canMoveTo(i,j,plyr).size() > 0)
+					return false;
+			}
+		}
+		return true;
+	}
 	public boolean isCheckMate(char plyr,char oppPlyr, ArrayList<Piece> attackers){
 		//plyr is the color that is in check
 		//tests if king can move
