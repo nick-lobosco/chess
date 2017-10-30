@@ -10,8 +10,8 @@ public class Chess
 	public static void main(String[] args)
 	{
 		Board board = new Board();
-		int turn = 0; //0=white, 1=black, -1 = gameover
-		boolean valid;
+		int turn = 0; //0=white, 1=black
+		int state = 0; //1=valid, 0=invalid, -1= gameover
 		board.print();
 		BufferedReader br;
 		try{
@@ -24,11 +24,16 @@ public class Chess
 					System.out.println(turn==0 ? "Black wins" : "White wins");
 					System.exit(0);	
 				}
-				if(!(valid = board.makeTurn(s, turn)))
+				state = board.makeTurn(s, turn);
+				if(state == 0)
 					System.out.println("Illegal Move, Try again");
-				else{
+				else if(state == 1){
 					turn = (turn+1)%2;
 					board.print();
+				}
+				else{
+					board.print();
+					return;
 				}
 			}
 		}
