@@ -1,3 +1,6 @@
+/**
+ * @author Nick, Nithin
+ */
 package chess;
 
 import java.io.BufferedReader;
@@ -9,7 +12,10 @@ import pieces.Pawn;
 
 /**
  * Runs the chess game. Creates a board instance, manages player turns, and reads player input.
+ * Processes resigns and draws. Ends the game if victory, draw, or resign.
  *
+ *@author Nick
+ *@author Nithin
  */
 
 public class Chess
@@ -39,7 +45,7 @@ public class Chess
 				}
 				else{
 					canDraw = false;}
-				if(s.length()>=7){
+				if(s.length()>7){
 					String in = s.substring(6);
 					if(in.equals("draw?"))
 					{

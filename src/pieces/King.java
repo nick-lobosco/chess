@@ -1,3 +1,6 @@
+/**
+ * @author Nick, Nithin
+ */
 package pieces;
 
 import chess.Board;
