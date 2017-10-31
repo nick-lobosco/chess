@@ -133,7 +133,6 @@ public class Board
 		//promotions
 		int end = plyr=='w' ? 7:0;
 		if(r2 == end && board[r2][c2].type == 'p'){
-			System.out.println(promo);
 			promote(board[r2][c2], promo, plyr);
 		}
 		
