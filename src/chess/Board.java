@@ -1,3 +1,6 @@
+/**
+ * @author Nick, Nithin
+ */
 package chess;
 
 import java.util.ArrayList;
@@ -10,15 +13,48 @@ import pieces.Piece;
 import pieces.Queen;
 import pieces.Rook;
 
+/**
+ * Manages board state and holds all pieces.
+ * Keeps track of the entire chess board, with pieces held in a 2D array list of pieces.
+ * Also keeps track of locations of both kings to help with detecting checks.
+ * Cotains an arraylist of pawns that can employ enpassant.
+ * 
+ * @author Nick
+ * @author Nithin
+ *
+ */
 public class Board
 {
+	/** 
+	 * Row number of white's king.
+	 */   
 	public int wKingR = 0;
+	/** 
+	 * Column number of white's king.
+	 */   
 	public int wKingC = 4;
+	/**
+	 * Row number of black's king.
+	 */
 	public int bKingR = 7;
+	/**
+	 * Column number of black's king.
+	 */
 	public int bKingC = 4;
+	/**
+	 * ArrayList of pawns that can use enpassant.
+	 */
 	public ArrayList<Pawn> passantables;
 	
+	/**
+	 * 2D array of pieces that represents the whole board.
+	 */
 	public Piece[][] board;
+	/**
+	 * Board constructor. Initializes the board with the standard initial locations for each piece.
+	 * Contains fields for the king locations set to default initial locations. Initializes an empty
+	 * arraylist of pawns that can use enpassant.
+	 */
 	public Board(){
 		passantables = new ArrayList<Pawn>();	//need to keep track of which pawns can passant
 		
@@ -48,6 +84,19 @@ public class Board
 		board[7][4] = new King('b',7,4);
 	}
 	
+	/**
+	 * Executes the given move for a player. The move is a string that encodes the players instruction.
+	 * This method parses the move, checks if the move is a valid move according to the piece classes and 
+	 * executes the move on this board instance if it is a valid move. 
+	 * <p>
+	 * Also checks for check, checkmate, and stalemate after a move is executed. Returns an integer to indicate
+	 * the success of the move.
+	 * 
+	 * @param move	the user input string as sent from the main method from the Chess class.
+	 * @param turn	the current player turn, 0 is white and 1 is black
+	 * @return	returns 1 for valid move, 0 for invalid, and -1 if game over (checkmate, stalemate)
+	 */
+	
 	public int makeTurn(String move, int turn){
 		//breakdown move String
 		char promo = 'Q';
@@ -56,10 +105,10 @@ public class Board
 		int c2 = move.charAt(3) - 'a';
 		int r2 = move.charAt(4) -'0' -1;
 		char plyr = (turn == 0 ? 'w' : 'b');
-		char oppPlyr = (turn == 0 ? 'b' : 'w');	
-		if(move.length()>=7){
+		char oppPlyr = (turn == 0 ? 'b' : 'w');
+		boolean canDraw = false;
+		if(move.length()==7){
 			promo = move.charAt(6);
-			System.out.println(promo);
 		}
 		
 			//can't enpassant if not used immediately
@@ -94,11 +143,11 @@ public class Board
 		//testForCheckMate
 		if(attackers.size()>0){
 			if(isCheckMate(oppPlyr, plyr, attackers)){
-				System.out.println("checkmate");
+				System.out.println("Checkmate");
 				return -1;
 			}
 			else
-				System.out.println("check");
+				System.out.println("Check");
 		}
 		if(isStaleMate(oppPlyr)){
 			System.out.println("Stalemate");
@@ -106,6 +155,13 @@ public class Board
 		}
 		return 1;
 	}
+	
+	/**
+	 * Checks for stalemate.
+	 * 
+	 * @param plyr character indicating the player to check stalemate with respect to. 'w' for white, 'b' for black.
+	 * @return	true if stalemate, false otherwise
+	 */
 	
 	public boolean isStaleMate(char plyr){
 		for(int i=0; i<8;i++){
@@ -116,6 +172,17 @@ public class Board
 		}
 		return true;
 	}
+	
+	/**
+	 * Checks for checkmate. Checks if checkmate has occurred by first checking if the king can move to a location
+	 * that is not attacked. If only one attacker, also checks if attacker can be blocked or captured. If there
+	 * is no way for the king to escape check, returns true, false otherwise.
+	 * 
+	 * @param plyr	player who is potentially checkmated
+	 * @param oppPlyr	player who just made the move and will win if checkmate
+	 * @param attackers list of current attackers that are attacking the king.
+	 * @return	true if checkmate, false otherwise
+	 */
 	public boolean isCheckMate(char plyr,char oppPlyr, ArrayList<Piece> attackers){
 		//plyr is the color that is in check
 		//tests if king can move
@@ -160,7 +227,16 @@ public class Board
 		}
 		
 	}
-
+	
+	/**
+	 * Checks if oppPlyer can attack the square specified by row r and column c.
+	 * Creates an ArrayList of all the pieces that belong to oppPlyer and can move to square (r,c).
+	 * 
+	 * @param r	the row of the square being tested against
+	 * @param c	the column of the square being tested against
+	 * @param oppPlyr	the player whose pieces are checked if can move to square
+	 * @return	ArrayList of pieces that belong to oppPlyr and that can attack square (r,c)
+	 */
 	public ArrayList<Piece> canMoveTo(int r, int c, char oppPlyr){
 		ArrayList<Piece> attackers = new ArrayList<Piece>();
 		Piece p;
@@ -231,6 +307,16 @@ public class Board
 		return attackers;
 	}
 	
+	/**
+	 * Promotes a pawn to chosen piece.
+	 * Called when a pawn reaches the opposite end of the board. Promotes that pawn to the piece specified
+	 * by the player, passed through the param promo. Defaults to a promotion to Queen. Places a piece of
+	 * of type specified by promo on the board at the location p is.
+	 * 
+	 * @param p	the piece that is being promoted
+	 * @param promo	the piece to be promoted to
+	 * @param plyr	sets the new piece's player field to this char
+	 */
 	public void promote(Piece p, char promo, char plyr)
 	{
 		int r = p.rCoord;
@@ -258,6 +344,9 @@ public class Board
 		}
 	}
 	
+	/**
+	 * Prints the board as specified.
+	 */
 	public void print(){
 		System.out.println();
 		for(int i=7; i>=0; i--){

@@ -1,11 +1,37 @@
+/**
+ * @author Nick, Nithin
+ */
 package pieces;
 
 import chess.Board;
 
+/**
+ * Pawn class derived from parent Piece. Provides an overloaded isValidMove method to account for all
+ * pawn movement. Specifies pawn specific attributes such as canPassant and passantDir.
+ * 
+ * @author Nick
+ * @author Nithin
+ *
+ */
 public class Pawn extends Piece
 {
+	/**
+	 * Indicates if this pawn can employ enpassant.
+	 */
 	public boolean canPassant = false;
+	/**
+	 * Indicates which direction pawn can enpassant.
+	 */
 	public int passantDir;
+	
+	/**
+	 * Constructor for pawns.
+	 * Calls super constructor derives from Piece. Sets type to 'p'.
+	 * 
+	 * @param player	the player this pawn belongs to
+	 * @param r	row coordinate
+	 * @param c	column coordinate
+	 */
 	public Pawn(char player, int r, int c){
 		super(player, r, c);
 		this.type = 'p';
