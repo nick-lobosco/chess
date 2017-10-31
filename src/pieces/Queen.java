@@ -38,7 +38,7 @@ public class Queen extends Piece
 			return false;
 		int rDir = (rDest - rCoord) >0 ? 1 : -1; 
 		int cDir = (cDest - cCoord) >0 ? 1 : -1;
-		for(int i=1; i<=diff;i++){
+		for(int i=1; i<diff;i++){
 			if(board.board[rCoord+rDir*i][cCoord+cDir*i]!=null)
 				return false;
 		}

@@ -20,12 +20,14 @@ public class Chess
 			br = new BufferedReader(new InputStreamReader(System.in));
 			String s;
 			while(turn != -1){
-				System.out.println((turn==0?"white's ":"black's ") + "turn");
+				System.out.print((turn==0?"white's ":"black's ") + "move: ");
 				s = br.readLine();
 				if(s.equals("resign")){
 					System.out.println(turn==0 ? "Black wins" : "White wins");
 					System.exit(0);	
 				}
+				if(s.equals("draw"))
+					return;
 				state = board.makeTurn(s, turn);
 				if(state == 0)
 					System.out.println("Illegal Move, Try again");
@@ -34,7 +36,8 @@ public class Chess
 					board.print();
 				}
 				else{
-					board.print();
+					//board.print();
+					System.out.println(turn==1 ? "Black wins" : "White wins");
 					return;
 				}
 			}
