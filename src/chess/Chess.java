@@ -7,6 +7,11 @@ import java.io.InputStreamReader;
 import pieces.Pawn;
 
 
+/**
+ * Runs the chess game. Creates a board instance, manages player turns, and reads player input.
+ *
+ */
+
 public class Chess
 {
 	public static void main(String[] args)
@@ -19,12 +24,28 @@ public class Chess
 		try{
 			br = new BufferedReader(new InputStreamReader(System.in));
 			String s;
+			boolean canDraw = false;
 			while(turn != -1){
 				System.out.println((turn==0?"white's ":"black's ") + "turn");
 				s = br.readLine();
 				if(s.equals("resign")){
 					System.out.println(turn==0 ? "Black wins" : "White wins");
 					System.exit(0);	
+				}
+				if(s.equals("draw") && canDraw)
+				{
+					System.out.println("draw");
+					System.exit(0);
+				}
+				else{
+					canDraw = false;}
+				if(s.length()>=7){
+					String in = s.substring(6);
+					if(in.equals("draw?"))
+					{
+						canDraw = true;
+						s = s.substring(0, 5);
+					}
 				}
 				state = board.makeTurn(s, turn);
 				if(state == 0)

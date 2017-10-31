@@ -56,10 +56,10 @@ public class Board
 		int c2 = move.charAt(3) - 'a';
 		int r2 = move.charAt(4) -'0' -1;
 		char plyr = (turn == 0 ? 'w' : 'b');
-		char oppPlyr = (turn == 0 ? 'b' : 'w');	
-		if(move.length()>=7){
+		char oppPlyr = (turn == 0 ? 'b' : 'w');
+		boolean canDraw = false;
+		if(move.length()==7){
 			promo = move.charAt(6);
-			System.out.println(promo);
 		}
 		
 			//can't enpassant if not used immediately
@@ -94,11 +94,11 @@ public class Board
 		//testForCheckMate
 		if(attackers.size()>0){
 			if(isCheckMate(oppPlyr, plyr, attackers)){
-				System.out.println("checkmate");
+				System.out.println("Checkmate");
 				return -1;
 			}
 			else
-				System.out.println("check");
+				System.out.println("Check");
 		}
 		if(isStaleMate(oppPlyr)){
 			System.out.println("Stalemate");
