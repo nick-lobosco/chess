@@ -12,14 +12,18 @@ public class Pawn extends Piece
 		this.canPassant = false;
 		this.passantDir = 0;
 	}
-	public boolean isValidMove(int rDest, int cDest, Board board){
+	public boolean isValidMove(int rDest, int cDest, Board board, char plyr){
 		
+		
+		if(super.isValidMove(rDest, cDest, board, plyr)){
+			
 		int dir = (this.player == 'w' ? 1 : -1);
 		
 		if(this.canPassant && rDest - rCoord == dir && cDest - cCoord == this.passantDir)	//execute enpassant
 		{
 			board.board[rCoord][cDest] = null;
 			this.hasMoved = true;
+			this.canPassant = false;
 			return true;
 		}
 		
@@ -31,7 +35,6 @@ public class Pawn extends Piece
 		
 		if(cDest - cCoord != 0 || board.board[rDest][cDest] != null)	//cant move horizontally or if somethings in the way	
 		{
-			System.out.println("horiz");
 			return false;
 		}
 		
@@ -44,6 +47,7 @@ public class Pawn extends Piece
 				Pawn p = (Pawn) board.board[rDest][right];
 				p.canPassant = true;
 				p.passantDir = -1;
+				board.passantables.add(p);
 			}
 			
 			if(left >= 0 && board.board[rDest][left] != null && board.board[rDest][left].type == 'p')
@@ -51,6 +55,7 @@ public class Pawn extends Piece
 				Pawn p = (Pawn) board.board[rDest][left];
 				p.canPassant = true;
 				p.passantDir = 1;
+				board.passantables.add(p);
 			}
 			
 			
@@ -65,5 +70,8 @@ public class Pawn extends Piece
 		}
 		
 		return false;
+	}
+	
+	return false;
 	}
 }

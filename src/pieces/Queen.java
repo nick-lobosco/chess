@@ -8,8 +8,11 @@ public class Queen extends Piece
 		super(player, r, c);
 		this.type = 'Q';
 	}
-	public boolean isValidMove(int rDest, int cDest, Board board){
+	public boolean isValidMove(int rDest, int cDest, Board board, char plyr){
 		
+		
+		if(super.isValidMove(rDest, cDest, board, plyr)){
+			
 		if(cDest - cCoord == 0) //moving vertically
 		{
 			int rDir = (rDest - rCoord) >0 ? 1 : -1; 
@@ -41,5 +44,9 @@ public class Queen extends Piece
 		}
 		
 		return true;
+	}
+	
+	return false;
+		
 	}
 }

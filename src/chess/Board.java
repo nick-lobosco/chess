@@ -16,9 +16,12 @@ public class Board
 	public int wKingC = 4;
 	public int bKingR = 7;
 	public int bKingC = 4;
+	public ArrayList<Pawn> passantables;
 	
 	public Piece[][] board;
 	public Board(){
+		passantables = new ArrayList<Pawn>();	//need to keep track of which pawns can passant
+		
 		board = new Piece[8][8];
 		for(int i=0;i<8;i++){
 			board[1][i] = new Pawn('w',1,i);
@@ -47,12 +50,28 @@ public class Board
 	
 	public int makeTurn(String move, int turn){
 		//breakdown move String
+		char promo = 'Q';
 		int c1 = move.charAt(0)-'a';
 		int r1 = move.charAt(1) -'0' -1;
 		int c2 = move.charAt(3) - 'a';
 		int r2 = move.charAt(4) -'0' -1;
 		char plyr = (turn == 0 ? 'w' : 'b');
-		char oppPlyr = (turn == 0 ? 'b' : 'w');
+		char oppPlyr = (turn == 0 ? 'b' : 'w');	
+		if(move.length()>=7){
+			promo = move.charAt(6);
+			System.out.println(promo);
+		}
+		
+			//can't enpassant if not used immediately
+		for(int i = 0; i<this.passantables.size();i++)
+		{
+			Pawn p = this.passantables.get(i);
+			if(p.player == oppPlyr)
+			{
+				p.canPassant = false;
+				this.passantables.remove(i);
+			}
+		}
 		
 		//validate move
 		if(board[r1][c1]==null)
@@ -61,6 +80,14 @@ public class Board
 			return 0;
 		//actually move piece
 		board[r1][c1].move(r2, c2, this);
+		
+		//promotions
+		int end = plyr=='w' ? 7:0;
+		if(r2 == end && board[r2][c2].type == 'p'){
+			System.out.println(promo);
+			promote(board[r2][c2], promo, plyr);
+		}
+		
 		
 		//testForCheck
 		ArrayList<Piece> attackers = (plyr == 'w' ? canMoveTo(bKingR, bKingC, plyr) : canMoveTo(wKingR, wKingC, plyr));
@@ -202,6 +229,33 @@ public class Board
 			}
 		}
 		return attackers;
+	}
+	
+	public void promote(Piece p, char promo, char plyr)
+	{
+		int r = p.rCoord;
+		int c = p.cCoord;
+		System.out.println(promo);
+		switch(promo){
+		case 'Q':
+			this.board[r][c] = new Queen(plyr, r, c);
+			break;
+		case 'N':
+			this.board[r][c] = new Knight(plyr, r, c);
+			break;
+		case 'R':
+			this.board[r][c] = new Rook(plyr, r, c);
+			break;
+		case 'B':
+			this.board[r][c] = new Bishop(plyr, r, c);
+			break;
+		case 'p':
+			this.board[r][c] = new Pawn(plyr, r, c);
+			break;
+		default:
+			this.board[r][c] = new Queen(plyr, r, c);
+			break;
+		}
 	}
 	
 	public void print(){
